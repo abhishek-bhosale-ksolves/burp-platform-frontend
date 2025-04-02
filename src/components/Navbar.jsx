@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "../assets/ksolves-logo.png";
+import Logo from "../assets/burp.png";
 import UserLogo from "../assets/user-logo.png";
 import { userRole } from "../context/userRole";
 
@@ -33,7 +33,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="text-2xl font-semibold">
           <NavLink to="/">
-            <img src={Logo} alt="Logo" className="h-8 w-auto" />
+            <img src={Logo} alt="Logo" className="h-12 w-auto" />
           </NavLink>
         </div>
 
