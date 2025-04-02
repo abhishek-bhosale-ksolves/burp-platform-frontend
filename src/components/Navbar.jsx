@@ -1,43 +1,60 @@
 import React from "react";
-import { useLocation } from "react-router-dom"; // Import useLocation hook
+import { NavLink } from "react-router-dom";
 import Logo from "../assets/ksolves-logo.png";
 import UserLogo from "../assets/user-logo.png";
+import { userRole } from "../context/userRole";
 
 const Navbar = () => {
-  const location = useLocation();
-
-  const isActive = (path) => {
-    return location.pathname === path ? "text-blue-600" : "text-black";
+  // Define navigation links based on the user role
+  const navLinks = {
+    employee: [
+      { path: "/open-positions", label: "Open Positions" },
+      { path: "/your-referrals", label: "Your Referrals" },
+      { path: "/be-reviewer", label: "Be a Reviewer" },
+    ],
+    reviewer: [
+      { path: "/all-referrals", label: "All Referrals" },
+      { path: "/open-positions", label: "Open Positions" },
+      { path: "/add-position", label: "Add Position+" },
+      { path: "/your-referrals", label: "Your Referrals" },
+    ],
+    admin: [
+      { path: "/manage-users", label: "Manage Users" },
+      { path: "/requests", label: "Requests" },
+      { path: "/all-referrals", label: "All Referrals" },
+      { path: "/add-position", label: "Add Position+" },
+    ],
   };
 
   return (
-    <nav className="bg-[#F4FFF3] text-white px-4 py-3 flex justify-between items-center">
+    <nav className="bg-[#F4FFF3] px-4 py-3 flex justify-between items-center">
       {/* Left side: Logo and Action Buttons */}
       <div className="flex items-center space-x-6">
         {/* Logo */}
         <div className="text-2xl font-semibold">
-          <a href="/" className="text-white">
+          <NavLink to="/">
             <img src={Logo} alt="Logo" className="h-8 w-auto" />
-          </a>
+          </NavLink>
         </div>
 
-        {/* Action Buttons */}
+        {/* Dynamic Navigation Links */}
         <div className="flex space-x-4">
-          <a href="/open-positions" className={isActive("/open-positions")}>
-            Open Positions
-          </a>
-          <a href="/your-referrals" className={isActive("/your-referrals")}>
-            Your Referrals
-          </a>
-          <a href="/be-reviewer" className={isActive("/be-reviewer")}>
-            Be Reviewer
-          </a>
+          {navLinks[userRole]?.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) =>
+                isActive ? "text-blue-600" : "text-black"
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
         </div>
       </div>
 
       {/* Right side: Profile Photo and Name */}
       <div className="flex items-center space-x-4">
-        {/* Profile Info */}
         <div className="text-black">
           <span className="font-semibold">Abhishek Bhosale</span>
           <span className="block text-xs">Software Engineer</span>

@@ -1,6 +1,11 @@
 import React from "react";
 
 const CandidateForm = ({ onClose }) => {
+  const handleSubmit = (event) => {
+    alert("Form submitted!");
+    onClose();
+  };
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg w-200 max-w-lg">
       <h3 className="text-2xl font-semibold mb-4 text-center">
@@ -137,6 +142,7 @@ const CandidateForm = ({ onClose }) => {
 
         {/* Submit Button */}
         <button
+          onClick={handleSubmit}
           type="submit"
           className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full"
         >
