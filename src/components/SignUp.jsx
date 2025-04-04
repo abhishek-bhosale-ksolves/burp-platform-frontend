@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/burp.png";
 
-const SignUpForm = ({ onClose }) => {
+const SignUpForm = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
