@@ -5,6 +5,9 @@ import ErrorPage from "./components/ErrorPage";
 import "./index.css";
 import ReferralTable from "./components/ReferralTable";
 import Hero from "./components/Hero";
+import RequestCard from "./components/RequestCard";
+import UsersTable from "./components/UsersTable";
+import AddPosition from "./components/AddPosition";
 
 const allPositions = [
   {
@@ -56,14 +59,42 @@ const candidates = [
   },
 ];
 
+const users = [
+  {
+    empId: "KS1189",
+    name: "Abhishek Bhosale",
+    email: "abhishek.bhosale@ksolves.com",
+    designation: "Software Engineer",
+  },
+  {
+    empId: "KS1191",
+    name: "Fedrick Nishant",
+    email: "fedrick.n@ksolves.com",
+    designation: "Senior Software Engineer",
+  },
+  {
+    empId: "KS1192",
+    name: "Ramesh Shinde",
+    email: "ramesh@ksolves.com",
+    designation: "Delivery Head",
+  },
+];
+
 function App() {
   const location = useLocation();
   return (
     <div>
       {/* Hide Navbar on ErrorPage */}
-      {["/", "/open-positions", "/your-referrals", "/be-reviewer"].includes(
-        location.pathname
-      ) && <Navbar />}
+      {[
+        "/",
+        "/open-positions",
+        "/your-referrals",
+        "/be-reviewer",
+        "/manage-users",
+        "/requests",
+        "/all-referrals",
+        "/add-position",
+      ].includes(location.pathname) && <Navbar />}
 
       <div className="container mx-auto p-4">
         <Routes>
@@ -76,25 +107,20 @@ function App() {
             path="/your-referrals"
             element={<ReferralTable candidates={candidates} />}
           />
+          <Route path="/be-reviewer" element={<RequestCard></RequestCard>} />
           <Route
-            path="/be-reviewer"
-            element={
-              <div className="flex justify-center items-center min-h-[60vh]">
-                <div className="bg-white shadow-lg rounded-xl p-8 max-w-md text-center border border-gray-200">
-                  <h1 className="text-2xl font-bold text-gray-800">
-                    Be a Reviewer
-                  </h1>
-                  <p className="mt-4 text-gray-600">
-                    Reviewers play a crucial role in our hiring process. If you
-                    are interested in becoming a reviewer, please contact us.
-                  </p>
-                  <button className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
-                    Request to be a Reviewer
-                  </button>
-                </div>
-              </div>
-            }
+            path="/manage-users"
+            element={<UsersTable users={users} isRequest={false} />}
           />
+          <Route
+            path="/requests"
+            element={<UsersTable users={users} isRequest={true} />}
+          />
+          <Route
+            path="/all-referrals"
+            element={<ReferralTable candidates={candidates} />}
+          />
+          <Route path="/add-position" element={<AddPosition />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>

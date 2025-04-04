@@ -1,1 +1,1 @@
-export const userRole = "employee";
+export const userRole = "admin";

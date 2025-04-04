@@ -4,6 +4,11 @@ import { userRole } from "../context/userRole";
 const CandidateTable = ({ candidates }) => {
   const [statusFilter, setStatusFilter] = useState("All");
 
+  function handleStatusChange(userId, newStatus) {
+    console.log("Update status for", userId, "to", newStatus);
+    // Update logic (API call or local state update) goes here
+  }
+
   const filteredCandidates =
     statusFilter === "All"
       ? candidates
@@ -72,17 +77,37 @@ const CandidateTable = ({ candidates }) => {
                 </a>
               </td>
               <td className="py-2 px-4">
-                <span
-                  className={`${
-                    candidate.status === "Accepted"
-                      ? "text-green-600"
-                      : candidate.status === "Rejected"
-                      ? "text-red-600"
-                      : "text-yellow-600"
-                  }`}
-                >
-                  {candidate.status}
-                </span>
+                {userRole === "admin" || userRole === "reviewer" ? (
+                  <select
+                    value={candidate.status}
+                    onChange={(e) =>
+                      handleStatusChange(candidate.empId, e.target.value)
+                    }
+                    className="border border-gray-300 rounded px-2 py-1 text-sm"
+                  >
+                    <option value="Accepted" className="text-green-600">
+                      Accepted
+                    </option>
+                    <option value="Rejected" className="text-red-600">
+                      Rejected
+                    </option>
+                    <option value="Pending" className="text-yellow-600">
+                      Pending
+                    </option>
+                  </select>
+                ) : (
+                  <span
+                    className={`${
+                      candidate.status === "Accepted"
+                        ? "text-green-600"
+                        : candidate.status === "Rejected"
+                        ? "text-red-600"
+                        : "text-yellow-600"
+                    }`}
+                  >
+                    {candidate.status}
+                  </span>
+                )}
               </td>
             </tr>
           ))}
