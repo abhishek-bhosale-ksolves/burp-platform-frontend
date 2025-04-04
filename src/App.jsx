@@ -125,8 +125,8 @@ function App() {
           />
           <Route path="/add-position" element={<AddPosition />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="*" element={<ErrorPage />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>
     </div>
