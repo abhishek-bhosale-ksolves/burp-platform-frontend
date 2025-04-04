@@ -8,6 +8,8 @@ import Hero from "./components/Hero";
 import RequestCard from "./components/RequestCard";
 import UsersTable from "./components/UsersTable";
 import AddPosition from "./components/AddPosition";
+import LoginForm from "./components/LoginForm";
+import SignUpForm from "./components/SignUp";
 
 const allPositions = [
   {
@@ -86,7 +88,6 @@ function App() {
     <div>
       {/* Hide Navbar on ErrorPage */}
       {[
-        "/",
         "/open-positions",
         "/your-referrals",
         "/be-reviewer",
@@ -94,11 +95,13 @@ function App() {
         "/requests",
         "/all-referrals",
         "/add-position",
+        "/home",
       ].includes(location.pathname) && <Navbar />}
 
       <div className="container mx-auto p-4">
         <Routes>
-          <Route path="/" element={<Hero />} />
+          <Route path="/home" element={<Hero />} />
+          <Route path="/" element={<LoginForm />} />
           <Route
             path="/open-positions"
             element={<CardsGrid allPositions={allPositions} />}
@@ -121,7 +124,9 @@ function App() {
             element={<ReferralTable candidates={candidates} />}
           />
           <Route path="/add-position" element={<AddPosition />} />
+          <Route path="/signup" element={<SignUpForm />} />
           <Route path="*" element={<ErrorPage />} />
+          <Route path="/login" element={<LoginForm />} />
         </Routes>
       </div>
     </div>
