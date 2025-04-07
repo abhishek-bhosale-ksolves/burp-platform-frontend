@@ -1,15 +1,14 @@
-import Navbar from "./components/Navbar";
-import CardsGrid from "./components/CardsGrid";
-import { Routes, Route, useLocation } from "react-router-dom";
-import ErrorPage from "./components/ErrorPage";
+import { Route, Routes, useLocation } from "react-router-dom";
+
+import Navbar from "./components/atoms/Navbar";
+import RequestCard from "./components/atoms/RequestCard";
+import AddPosition from "./components/forms/AddPositionForm";
+import ErrorPage from "./components/pages/ErrorPage";
+import Hero from "./components/pages/LandingPage";
+import CardsGrid from "./components/pages/OpeningsPage";
+import ReferralTable from "./components/pages/ReferralsPage";
+import UsersTable from "./components/pages/UsersPage";
 import "./index.css";
-import ReferralTable from "./components/ReferralTable";
-import Hero from "./components/Hero";
-import RequestCard from "./components/RequestCard";
-import UsersTable from "./components/UsersTable";
-import AddPosition from "./components/AddPosition";
-import LoginForm from "./components/LoginForm";
-import SignUpForm from "./components/SignUp";
 
 const allPositions = [
   {

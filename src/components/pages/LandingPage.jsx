@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 // import Illustration from "../assets/buddy-image.png";
 import Lottie from "lottie-react";
-import animationData from "../assets/animations/hero-section-animation.json";
+
+import animationData from "../../assets/animations/hero-section-animation.json";
 
 const Hero = () => {
   return (

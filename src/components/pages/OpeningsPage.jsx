@@ -1,5 +1,6 @@
 import React from "react";
-import Card from "./Card";
+
+import Card from "../atoms/JobCard";
 
 const CardsGrid = ({ allPositions }) => {
   return (

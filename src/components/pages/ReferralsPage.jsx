@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { userRole } from "../context/userRole";
+
+import { userRole } from "../../context/userRole";
 
 const CandidateTable = ({ candidates }) => {
   const [statusFilter, setStatusFilter] = useState("All");
@@ -101,8 +102,8 @@ const CandidateTable = ({ candidates }) => {
                       candidate.status === "Accepted"
                         ? "text-green-600"
                         : candidate.status === "Rejected"
-                        ? "text-red-600"
-                        : "text-yellow-600"
+                          ? "text-red-600"
+                          : "text-yellow-600"
                     }`}
                   >
                     {candidate.status}

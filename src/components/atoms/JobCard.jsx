@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
-import CandidateForm from "./CandidateForm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import CandidateForm from "../forms/ReferralForm";
 
 const Card = ({ title, experience, description, buttonText }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);

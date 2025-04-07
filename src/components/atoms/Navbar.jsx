@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "../assets/burp.png";
-import UserLogo from "../assets/user-logo.png";
-import { userRole } from "../context/userRole";
+
+import Logo from "../../assets/burp.png";
+import UserLogo from "../../assets/user-logo.png";
+import { userRole } from "../../context/userRole";
 
 const Navbar = () => {
   // Define navigation links based on the user role

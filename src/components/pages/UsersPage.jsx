@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoBan, IoCheckmarkDone } from "react-icons/io5";
-import { userRole } from "../context/userRole";
+
+import { userRole } from "../../context/userRole";
 
 const UsersTable = ({ users, isRequest }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,7 +12,7 @@ const UsersTable = ({ users, isRequest }) => {
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.empId.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.designation.toLowerCase().includes(searchQuery.toLowerCase())
+      user.designation.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   function onEdit(user) {
