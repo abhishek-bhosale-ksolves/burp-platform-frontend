@@ -94,13 +94,12 @@ function App() {
         "/requests",
         "/all-referrals",
         "/add-position",
-        "/home",
+        "/",
       ].includes(location.pathname) && <Navbar />}
 
       <div className="container mx-auto p-4">
         <Routes>
-          <Route path="/home" element={<Hero />} />
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<Hero />} />
           <Route
             path="/open-positions"
             element={<CardsGrid allPositions={allPositions} />}
@@ -123,8 +122,6 @@ function App() {
             element={<ReferralTable candidates={candidates} />}
           />
           <Route path="/add-position" element={<AddPosition />} />
-          <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/login" element={<LoginForm />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>
