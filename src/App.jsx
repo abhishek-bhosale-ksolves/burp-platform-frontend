@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+
+import axios from "axios";
 
 import Navbar from "./components/atoms/Navbar";
 import RequestCard from "./components/atoms/RequestCard";
@@ -83,6 +86,23 @@ const users = [
 
 function App() {
   const location = useLocation();
+  const [allPositions, setAllPositions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPositions = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/positions");
+        setAllPositions(res.data);
+      } catch (error) {
+        console.error("Error fetching positions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPositions();
+  }, []);
   return (
     <div>
       {/* Hide Navbar on ErrorPage */}
@@ -102,7 +122,13 @@ function App() {
           <Route path="/" element={<Hero />} />
           <Route
             path="/open-positions"
-            element={<CardsGrid allPositions={allPositions} />}
+            element={
+              loading ? (
+                <div>Loading positions...</div>
+              ) : (
+                <CardsGrid allPositions={allPositions} />
+              )
+            }
           />
           <Route
             path="/your-referrals"

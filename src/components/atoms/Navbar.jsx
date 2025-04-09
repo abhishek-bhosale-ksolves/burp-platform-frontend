@@ -2,11 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import Logo from "../../assets/burp.png";
-import UserLogo from "../../assets/user-logo.png";
-import { userRole } from "../../context/userRole";
+import { useUser } from "../../context/UserContext";
+import GoogleAuthButton from "./GoogleAuthButton";
 
 const Navbar = () => {
-  // Define navigation links based on the user role
+  const { user } = useUser();
   const navLinks = {
     employee: [
       { path: "/open-positions", label: "Open Positions" },
@@ -40,28 +40,23 @@ const Navbar = () => {
 
         {/* Dynamic Navigation Links */}
         <div className="flex space-x-4">
-          {navLinks[userRole]?.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className={({ isActive }) =>
-                isActive ? "text-blue-600" : "text-black"
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          {user &&
+            navLinks[user.role]?.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) =>
+                  isActive ? "text-blue-600" : "text-black"
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
         </div>
       </div>
 
       {/* Right side: Profile Photo and Name */}
-      <div className="flex items-center space-x-4">
-        <div className="text-black">
-          <span className="font-semibold">Abhishek Bhosale</span>
-          <span className="block text-xs">Software Engineer</span>
-        </div>
-        <img src={UserLogo} alt="User" className="rounded-full h-5 w-5" />
-      </div>
+      <GoogleAuthButton />
     </nav>
   );
 };

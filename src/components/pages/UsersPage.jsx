@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoBan, IoCheckmarkDone } from "react-icons/io5";
 
-import { userRole } from "../../context/userRole";
+import { useUser } from "../../context/UserContext";
 
 const UsersTable = ({ users, isRequest }) => {
+  const user = useUser();
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredCandidates = users.filter(
@@ -56,7 +57,7 @@ const UsersTable = ({ users, isRequest }) => {
               <th className="py-2 px-4 text-left">Employee ID</th>
               <th className="py-2 px-4 text-left">Email</th>
               <th className="py-2 px-4 text-left">Designation</th>
-              {(userRole === "admin" || userRole === "reviewer") && (
+              {(user.role === "admin" || user.role === "reviewer") && (
                 <th className="py-2 px-4 text-left">Reviewer Requests</th>
               )}
             </tr>
@@ -68,7 +69,7 @@ const UsersTable = ({ users, isRequest }) => {
                 <td className="py-2 px-4">{user.empId}</td>
                 <td className="py-2 px-4">{user.email}</td>
                 <td className="py-2 px-4">{user.designation}</td>
-                {!isRequest && userRole === "admin" && (
+                {!isRequest && user.role === "admin" && (
                   <td className="py-2 px-4 flex gap-2">
                     <button
                       className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"

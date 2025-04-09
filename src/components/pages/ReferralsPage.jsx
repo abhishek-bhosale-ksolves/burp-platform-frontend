@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-import { userRole } from "../../context/userRole";
+import { useUser } from "../../context/UserContext";
 
 const CandidateTable = ({ candidates }) => {
+  const { user } = useUser();
   const [statusFilter, setStatusFilter] = useState("All");
 
   function handleStatusChange(userId, newStatus) {
@@ -34,7 +35,7 @@ const CandidateTable = ({ candidates }) => {
         <thead className="bg-[#e2504b] text-white rounded-t-lg">
           <tr>
             <th className="py-2 px-4 text-left">Candidate Name</th>
-            {userRole !== "employee" && (
+            {user.role !== "employee" && (
               <th className="py-2 px-4 text-left">Referred By</th>
             )}
             <th className="py-2 px-4 text-left">Experience</th>
@@ -50,7 +51,7 @@ const CandidateTable = ({ candidates }) => {
           {filteredCandidates.map((candidate, index) => (
             <tr key={index} className="border-b hover:bg-gray-100">
               <td className="py-2 px-4">{candidate.name}</td>
-              {userRole !== "employee" && (
+              {user.role !== "employee" && (
                 <td className="py-2 px-4">{candidate.referredBy}</td>
               )}
               <td className="py-2 px-4">{candidate.experience} years</td>
@@ -78,7 +79,7 @@ const CandidateTable = ({ candidates }) => {
                 </a>
               </td>
               <td className="py-2 px-4">
-                {userRole === "admin" || userRole === "reviewer" ? (
+                {user.role === "admin" || user.role === "reviewer" ? (
                   <select
                     value={candidate.status}
                     onChange={(e) =>

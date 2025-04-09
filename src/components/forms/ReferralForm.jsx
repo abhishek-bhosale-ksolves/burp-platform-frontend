@@ -1,9 +1,37 @@
 import React from "react";
+import { useState } from "react";
 
 const CandidateForm = ({ onClose }) => {
-  const handleSubmit = (event) => {
-    alert("Form submitted!");
-    onClose();
+  const { user } = useUser(); // <- get the logged-in user
+  const [formData, setFormData] = useState({
+    candidateName: "",
+    candidateEmail: "",
+    candidatePhone: "",
+    candidateLinkedIn: "",
+    candidateResume: "",
+    currentEmployer: "",
+    noticePeriod: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      await API.post("/api/referrals", {
+        ...formData,
+        positionId,
+        referredBy: user?._id,
+      });
+      alert("Referral submitted successfully!");
+      onClose();
+    } catch (error) {
+      console.error("Error submitting referral:", error);
+      alert("Something went wrong.");
+    }
   };
 
   return (
@@ -26,6 +54,8 @@ const CandidateForm = ({ onClose }) => {
               type="text"
               id="fullName"
               name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -43,6 +73,8 @@ const CandidateForm = ({ onClose }) => {
               type="email"
               id="email"
               name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -63,6 +95,8 @@ const CandidateForm = ({ onClose }) => {
               type="number"
               id="experience"
               name="experience"
+              value={formData.experience}
+              onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -80,6 +114,8 @@ const CandidateForm = ({ onClose }) => {
               type="text"
               id="currentEmployer"
               name="currentEmployer"
+              value={formData.currentEmployer}
+              onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -100,6 +136,8 @@ const CandidateForm = ({ onClose }) => {
               type="text"
               id="noticePeriod"
               name="noticePeriod"
+              value={formData.noticePeriod}
+              onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -117,6 +155,8 @@ const CandidateForm = ({ onClose }) => {
               type="url"
               id="linkedin"
               name="linkedin"
+              value={formData.linkedin}
+              onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -136,6 +176,8 @@ const CandidateForm = ({ onClose }) => {
             id="resume"
             name="resume"
             required
+            value={formData.resume}
+            onChange={handleChange}
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
