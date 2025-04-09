@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 
 import axios from "axios";
 
@@ -53,7 +54,23 @@ const GoogleAuthButton = () => {
           </div>
         </>
       ) : (
-        <button onClick={handleLogin}>Login with Google</button>
+        <button
+          onClick={handleLogin}
+          style={{
+            backgroundColor: "#fff", // Google red
+            color: "black",
+            display: "flex",
+            border: "1px solid #ccc",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <FcGoogle
+            size={25}
+            style={{ backgroundColor: "white", borderRadius: "50%" }}
+          />
+          Login with Google
+        </button>
       )}
     </div>
   );
