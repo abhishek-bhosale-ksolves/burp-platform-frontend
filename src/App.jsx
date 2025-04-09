@@ -92,7 +92,9 @@ function App() {
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/positions");
+        const res = await axios.get(
+          "https://burp-platform-backend.onrender.com/api/positions",
+        );
         setAllPositions(res.data);
       } catch (error) {
         console.error("Error fetching positions:", error);
