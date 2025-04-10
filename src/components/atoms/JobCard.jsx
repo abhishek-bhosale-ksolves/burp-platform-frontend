@@ -6,10 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import CandidateForm from "../forms/ReferralForm";
 
-const Card = ({ title, experience, description, buttonText }) => {
+const Card = ({ cardId, title, experience, description, buttonText }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const toggleForm = () => {
+    console.log("Button clicked");
+    console.log({ cardId });
     setIsFormVisible(!isFormVisible); // Toggle form visibility
   };
 
@@ -39,7 +41,7 @@ const Card = ({ title, experience, description, buttonText }) => {
 
       {isFormVisible && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-10">
-          <CandidateForm onClose={toggleForm} />{" "}
+          <CandidateForm onClose={toggleForm} cardId={cardId} />{" "}
           {/* Pass onClose to handle form close */}
         </div>
       )}

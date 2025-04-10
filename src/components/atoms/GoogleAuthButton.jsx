@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://burp-platform-backend.onrender.com",
+  baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 
@@ -14,7 +14,7 @@ const GoogleAuthButton = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await API.get("/api/user");
+        const res = await API.get("/auth/api/user");
         setUser(res.data.user);
       } catch (err) {
         setUser(null);
@@ -25,10 +25,7 @@ const GoogleAuthButton = () => {
   }, []);
 
   const handleLogin = () => {
-    window.open(
-      "https://burp-platform-backend.onrender.com/auth/google",
-      "_self",
-    );
+    window.open("http://localhost:5000/auth/google", "_self");
   };
 
   const handleLogout = async () => {
@@ -53,7 +50,19 @@ const GoogleAuthButton = () => {
               alt="User"
               className="rounded-full h-10 w-10"
             />
-            <button onClick={handleLogout}>Logout</button>
+            <button
+              onClick={handleLogout}
+              style={{
+                backgroundColor: "#fff", // Google red
+                color: "black",
+                display: "flex",
+                border: "1px solid #ccc",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              Logout
+            </button>
           </div>
         </>
       ) : (

@@ -1,20 +1,47 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+
+import axios from "axios";
 
 import { useUser } from "../../context/UserContext";
 
-const CandidateTable = ({ candidates }) => {
+const ReferralsTable = ({ candidates }) => {
+  const [referrals, setAllReferrals] = useState([]);
+  useEffect(() => {
+    const fetchReferrals = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/referrals", {
+          withCredentials: true,
+        });
+        setAllReferrals(res.data);
+      } catch (error) {
+        console.error("Error fetching referrals:", error);
+      }
+    };
+
+    fetchReferrals();
+  }, []);
   const { user } = useUser();
   const [statusFilter, setStatusFilter] = useState("All");
 
   function handleStatusChange(userId, newStatus) {
     console.log("Update status for", userId, "to", newStatus);
     // Update logic (API call or local state update) goes here
+    // apit call
+    fetch(`http://localhost:5000/api/referrals/:id`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ status: newStatus }),
+    });
   }
 
   const filteredCandidates =
     statusFilter === "All"
-      ? candidates
-      : candidates.filter((candidate) => candidate.status === statusFilter);
+      ? referrals
+      : referrals.filter((referral) => referral.status === statusFilter);
 
   return (
     <div className="overflow-x-auto p-4">
@@ -48,19 +75,21 @@ const CandidateTable = ({ candidates }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredCandidates.map((candidate, index) => (
+          {filteredCandidates.map((referral, index) => (
             <tr key={index} className="border-b hover:bg-gray-100">
-              <td className="py-2 px-4">{candidate.name}</td>
+              <td className="py-2 px-4">{referral.candidateName}</td>
               {user.role !== "employee" && (
-                <td className="py-2 px-4">{candidate.referredBy}</td>
+                <td className="py-2 px-4">{referral.referredBy}</td>
               )}
-              <td className="py-2 px-4">{candidate.experience} years</td>
-              <td className="py-2 px-4">{candidate.email}</td>
-              <td className="py-2 px-4">{candidate.phone}</td>
-              <td className="py-2 px-4">{candidate.dateAdded}</td>
+              <td className="py-2 px-4">
+                {referral.candidateExperience} years
+              </td>
+              <td className="py-2 px-4">{referral.candidateEmail}</td>
+              <td className="py-2 px-4">{referral.candidatePhone}</td>
+              <td className="py-2 px-4">{referral.createdAt}</td>
               <td className="py-2 px-4">
                 <a
-                  href={candidate.resumeLink}
+                  href={referral.candidateResume}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline"
@@ -70,7 +99,7 @@ const CandidateTable = ({ candidates }) => {
               </td>
               <td className="py-2 px-4">
                 <a
-                  href={candidate.linkedinLink}
+                  href={referral.candidateLinkedIn}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline"
@@ -81,14 +110,17 @@ const CandidateTable = ({ candidates }) => {
               <td className="py-2 px-4">
                 {user.role === "admin" || user.role === "reviewer" ? (
                   <select
-                    value={candidate.status}
+                    value={referral.status}
                     onChange={(e) =>
-                      handleStatusChange(candidate.empId, e.target.value)
+                      handleStatusChange(referral.empId, e.target.value)
                     }
                     className="border border-gray-300 rounded px-2 py-1 text-sm"
                   >
-                    <option value="Accepted" className="text-green-600">
-                      Accepted
+                    <option value="In Progress" className="text-green-600">
+                      In Progress
+                    </option>
+                    <option value="Hired" className="text-green-600">
+                      Hired
                     </option>
                     <option value="Rejected" className="text-red-600">
                       Rejected
@@ -100,14 +132,14 @@ const CandidateTable = ({ candidates }) => {
                 ) : (
                   <span
                     className={`${
-                      candidate.status === "Accepted"
+                      referral.status === "Accepted"
                         ? "text-green-600"
-                        : candidate.status === "Rejected"
+                        : referral.status === "Rejected"
                           ? "text-red-600"
                           : "text-yellow-600"
                     }`}
                   >
-                    {candidate.status}
+                    {referral.status}
                   </span>
                 )}
               </td>
@@ -119,4 +151,4 @@ const CandidateTable = ({ candidates }) => {
   );
 };
 
-export default CandidateTable;
+export default ReferralsTable;

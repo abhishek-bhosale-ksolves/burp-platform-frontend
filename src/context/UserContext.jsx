@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://burp-platform-backend.onrender.com",
+  baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 
@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await API.get("/api/user");
+        const res = await API.get("/auth/api/user");
         setUser(res.data.user);
       } catch {
         setUser(null);

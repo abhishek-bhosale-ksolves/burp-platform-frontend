@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
-import axios from "axios";
-
 import Navbar from "./components/atoms/Navbar";
 import RequestCard from "./components/atoms/RequestCard";
 import AddPosition from "./components/forms/AddPositionForm";
 import ErrorPage from "./components/pages/ErrorPage";
 import Hero from "./components/pages/LandingPage";
 import CardsGrid from "./components/pages/OpeningsPage";
-import ReferralTable from "./components/pages/ReferralsPage";
+import ReferralsTable from "./components/pages/ReferralsPage";
 import UsersTable from "./components/pages/UsersPage";
 import "./index.css";
 
@@ -61,25 +59,9 @@ const users = [
 
 function App() {
   const location = useLocation();
-  const [allPositions, setAllPositions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [allReferrals, setAllReferrals] = useState([]);
 
-  useEffect(() => {
-    const fetchPositions = async () => {
-      try {
-        const res = await axios.get(
-          "https://burp-platform-backend.onrender.com/api/positions",
-        );
-        setAllPositions(res.data);
-      } catch (error) {
-        console.error("Error fetching positions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPositions();
-  }, []);
   return (
     <div>
       {/* Hide Navbar on ErrorPage */}
@@ -97,20 +79,8 @@ function App() {
       <div className="container mx-auto p-4">
         <Routes>
           <Route path="/" element={<Hero />} />
-          <Route
-            path="/open-positions"
-            element={
-              loading ? (
-                <div>Loading positions...</div>
-              ) : (
-                <CardsGrid allPositions={allPositions} />
-              )
-            }
-          />
-          <Route
-            path="/your-referrals"
-            element={<ReferralTable candidates={candidates} />}
-          />
+          <Route path="/open-positions" element={<CardsGrid />} />
+          <Route path="/your-referrals" element={<ReferralsTable />} />
           <Route path="/be-reviewer" element={<RequestCard></RequestCard>} />
           <Route
             path="/manage-users"
@@ -122,7 +92,7 @@ function App() {
           />
           <Route
             path="/all-referrals"
-            element={<ReferralTable candidates={candidates} />}
+            element={<ReferralsTable candidates={allReferrals} />}
           />
           <Route path="/add-position" element={<AddPosition />} />
           <Route path="*" element={<ErrorPage />} />

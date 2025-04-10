@@ -1,16 +1,22 @@
 import React from "react";
 import { useState } from "react";
 
-const CandidateForm = ({ onClose }) => {
+import API from "../../api";
+import { useUser } from "../../context/UserContext";
+
+const CandidateForm = ({ onClose, cardId }) => {
   const { user } = useUser(); // <- get the logged-in user
   const [formData, setFormData] = useState({
     candidateName: "",
     candidateEmail: "",
+    candidateExperience: "",
     candidatePhone: "",
     candidateLinkedIn: "",
     candidateResume: "",
     currentEmployer: "",
     noticePeriod: "",
+    referredBy: "",
+    positionId: "",
   });
 
   const handleChange = (e) => {
@@ -19,19 +25,39 @@ const CandidateForm = ({ onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    try {
-      await API.post("/api/referrals", {
+    console.log("%%%%%%%%%%%%%%%");
+    console.log({ formData });
+    const response = await fetch("http://localhost:5000/api/referrals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // 👈 Include cookies/session if needed
+      body: JSON.stringify({
         ...formData,
-        positionId,
+        positionId: cardId,
         referredBy: user?._id,
-      });
-      alert("Referral submitted successfully!");
-      onClose();
-    } catch (error) {
-      console.error("Error submitting referral:", error);
-      alert("Something went wrong.");
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to submit referral");
     }
+
+    setFormData({
+      candidateName: "",
+      candidateEmail: "",
+      candidateExperience: "",
+      candidatePhone: "",
+      candidateLinkedIn: "",
+      candidateResume: "",
+      currentEmployer: "",
+      noticePeriod: "",
+    });
+    alert("Referral submitted successfully!");
+    onClose();
   };
 
   return (
@@ -45,16 +71,16 @@ const CandidateForm = ({ onClose }) => {
           {/* Full Name */}
           <div>
             <label
-              htmlFor="fullName"
+              htmlFor="candidateName"
               className="block text-sm font-medium text-gray-700"
             >
               Full Name
             </label>
             <input
               type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
+              id="candidateName"
+              name="candidateName"
+              value={formData.candidateName}
               onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -64,16 +90,16 @@ const CandidateForm = ({ onClose }) => {
           {/* Email */}
           <div>
             <label
-              htmlFor="email"
+              htmlFor="candidateEmail"
               className="block text-sm font-medium text-gray-700"
             >
               Email
             </label>
             <input
               type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              id="candidateEmail"
+              name="candidateEmail"
+              value={formData.candidateEmail}
               onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -86,16 +112,16 @@ const CandidateForm = ({ onClose }) => {
           {/* Experience */}
           <div>
             <label
-              htmlFor="experience"
+              htmlFor="candidateExperience"
               className="block text-sm font-medium text-gray-700"
             >
               Experience (in years)
             </label>
             <input
               type="number"
-              id="experience"
-              name="experience"
-              value={formData.experience}
+              id="candidateExperience"
+              name="candidateExperience"
+              value={formData.candidateExperience}
               onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -146,16 +172,16 @@ const CandidateForm = ({ onClose }) => {
           {/* LinkedIn URL */}
           <div>
             <label
-              htmlFor="linkedin"
+              htmlFor="candidateLinkedIn"
               className="block text-sm font-medium text-gray-700"
             >
               LinkedIn URL
             </label>
             <input
               type="url"
-              id="linkedin"
-              name="linkedin"
-              value={formData.linkedin}
+              id="candidateLinkedIn"
+              name="candidateLinkedIn"
+              value={formData.candidateLinkedIn}
               onChange={handleChange}
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -163,23 +189,43 @@ const CandidateForm = ({ onClose }) => {
           </div>
         </div>
 
-        {/* Resume URL */}
-        <div className="mb-4">
-          <label
-            htmlFor="resume"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Resume URL
-          </label>
-          <input
-            type="url"
-            id="resume"
-            name="resume"
-            required
-            value={formData.resume}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="mb-4">
+            <label
+              htmlFor="candidateResume"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Resume URL
+            </label>
+            <input
+              type="url"
+              id="candidateResume"
+              name="candidateResume"
+              required
+              value={formData.candidateResume}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Phone Number */}
+          <div>
+            <label
+              htmlFor="candidatePhone"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              id="candidatePhone"
+              name="candidatePhone"
+              value={formData.candidatePhone}
+              onChange={handleChange}
+              required
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
         </div>
 
         {/* Submit Button */}
