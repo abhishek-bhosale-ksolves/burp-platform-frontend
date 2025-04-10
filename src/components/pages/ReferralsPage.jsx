@@ -10,9 +10,12 @@ const ReferralsTable = ({ candidates }) => {
   useEffect(() => {
     const fetchReferrals = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/referrals", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://burp-platform-backend.onrender.com/api/referrals",
+          {
+            withCredentials: true,
+          },
+        );
         setAllReferrals(res.data);
       } catch (error) {
         console.error("Error fetching referrals:", error);
@@ -28,7 +31,7 @@ const ReferralsTable = ({ candidates }) => {
     console.log("Update status for", userId, "to", newStatus);
     // Update logic (API call or local state update) goes here
     // apit call
-    fetch(`http://localhost:5000/api/referrals/:id`, {
+    fetch(`https://burp-platform-backend.onrender.com/api/referrals/:id`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

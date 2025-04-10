@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://burp-platform-backend.onrender.com",
   withCredentials: true,
 });
 
@@ -25,7 +25,10 @@ const GoogleAuthButton = () => {
   }, []);
 
   const handleLogin = () => {
-    window.open("http://localhost:5000/auth/google", "_self");
+    window.open(
+      "https://burp-platform-backend.onrender.com/auth/google",
+      "_self",
+    );
   };
 
   const handleLogout = async () => {

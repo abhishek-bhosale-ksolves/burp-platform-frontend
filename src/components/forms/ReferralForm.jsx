@@ -27,18 +27,21 @@ const CandidateForm = ({ onClose, cardId }) => {
     event.preventDefault();
     console.log("%%%%%%%%%%%%%%%");
     console.log({ formData });
-    const response = await fetch("http://localhost:5000/api/referrals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://burp-platform-backend.onrender.com/api/referrals",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // 👈 Include cookies/session if needed
+        body: JSON.stringify({
+          ...formData,
+          positionId: cardId,
+          referredBy: user?._id,
+        }),
       },
-      credentials: "include", // 👈 Include cookies/session if needed
-      body: JSON.stringify({
-        ...formData,
-        positionId: cardId,
-        referredBy: user?._id,
-      }),
-    });
+    );
 
     const data = await response.json();
 
