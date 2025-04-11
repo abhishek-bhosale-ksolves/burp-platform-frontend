@@ -1,10 +1,28 @@
-import React, { use, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoBan, IoCheckmarkDone } from "react-icons/io5";
 
 import { useUser } from "../../context/UserContext";
 
-const UsersTable = ({ users, isRequest }) => {
+const UsersTable = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/users", {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   const user = useUser();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -26,18 +44,14 @@ const UsersTable = ({ users, isRequest }) => {
 
   return (
     <>
-      {isRequest && (
-        <div className="mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">Requests</h2>
-          <p className="text-gray-600">Pending Reviewer Requests</p>
-        </div>
-      )}
-      {!isRequest && (
-        <div className="mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">Users</h2>
-          <p className="text-gray-600">All organization users</p>
-        </div>
-      )}
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold text-gray-800">Requests</h2>
+        <p className="text-gray-600">Pending Reviewer Requests</p>
+      </div>
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold text-gray-800">Users</h2>
+        <p className="text-gray-600">All organization users</p>
+      </div>
       <div className="overflow-x-auto p-4">
         <div className="mb-4 flex flex-col md:flex-row md:items-center md:justify-start gap-4">
           <div>
@@ -54,54 +68,31 @@ const UsersTable = ({ users, isRequest }) => {
           <thead className="bg-[#e2504b] text-white rounded-t-lg">
             <tr>
               <th className="py-2 px-4 text-left">Employee Name</th>
-              <th className="py-2 px-4 text-left">Employee ID</th>
               <th className="py-2 px-4 text-left">Email</th>
-              <th className="py-2 px-4 text-left">Designation</th>
-              {(user.role === "admin" || user.role === "reviewer") && (
-                <th className="py-2 px-4 text-left">Reviewer Requests</th>
-              )}
+              <th className="py-2 px-4 text-left">Role</th>
+              <th className="py-2 px-4 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredCandidates.map((user, index) => (
               <tr key={index} className="border-b hover:bg-gray-100">
                 <td className="py-2 px-4">{user.name}</td>
-                <td className="py-2 px-4">{user.empId}</td>
                 <td className="py-2 px-4">{user.email}</td>
-                <td className="py-2 px-4">{user.designation}</td>
-                {!isRequest && user.role === "admin" && (
-                  <td className="py-2 px-4 flex gap-2">
-                    <button
-                      className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
-                      onClick={() => onEdit(user)}
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
-                      onClick={() => onDelete(user.empId)}
-                    >
-                      <FaTrash />
-                    </button>
-                  </td>
-                )}
-                {isRequest && (
-                  <td className="py-2 px-4 flex gap-2">
-                    <button
-                      className="text-white px-3 py-1 rounded-md hover:bg-green-700 flex items-center"
-                      style={{ backgroundColor: "#4CAF50" }}
-                      onClick={() => onEdit(user)}
-                    >
-                      <IoCheckmarkDone />
-                    </button>
-                    <button
-                      className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700 flex items-center"
-                      onClick={() => onDelete(user.empId)}
-                    >
-                      <IoBan />
-                    </button>
-                  </td>
-                )}
+                <td className="py-2 px-4">{user.role}</td>
+                <td className="py-2 px-4 flex gap-2">
+                  <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
+                    onClick={() => onEdit(user)}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
+                    onClick={() => onDelete(user.empId)}
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -10,8 +10,6 @@ const Card = ({ cardId, title, experience, description, buttonText }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const toggleForm = () => {
-    console.log("Button clicked");
-    console.log({ cardId });
     setIsFormVisible(!isFormVisible); // Toggle form visibility
   };
 

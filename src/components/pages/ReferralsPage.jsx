@@ -10,12 +10,9 @@ const ReferralsTable = ({ candidates }) => {
   useEffect(() => {
     const fetchReferrals = async () => {
       try {
-        const res = await axios.get(
-          "https://burp-platform-backend.onrender.com/api/referrals",
-          {
-            withCredentials: true,
-          },
-        );
+        const res = await axios.get("http://localhost:5000/api/referrals", {
+          withCredentials: true,
+        });
         setAllReferrals(res.data);
       } catch (error) {
         console.error("Error fetching referrals:", error);
@@ -27,19 +24,32 @@ const ReferralsTable = ({ candidates }) => {
   const { user } = useUser();
   const [statusFilter, setStatusFilter] = useState("All");
 
-  function handleStatusChange(userId, newStatus) {
-    console.log("Update status for", userId, "to", newStatus);
-    // Update logic (API call or local state update) goes here
-    // apit call
-    fetch(`https://burp-platform-backend.onrender.com/api/referrals/:id`, {
-      method: "PATCH",
+  function handleStatusChange(referralId, newStatus) {
+    fetch(`http://localhost:5000/api/referrals/${referralId}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
       body: JSON.stringify({ status: newStatus }),
-    });
+    })
+      .then((res) => res.json())
+      .then((updatedReferral) => {
+        // Update the local state with the new status
+        setAllReferrals((prevReferrals) =>
+          prevReferrals.map((referral) =>
+            referral._id === referralId
+              ? { ...referral, status: updatedReferral.status }
+              : referral,
+          ),
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to update referral status:", error);
+      });
   }
+
+  console.log("Referrals:", referrals);
 
   const filteredCandidates =
     statusFilter === "All"
@@ -115,7 +125,7 @@ const ReferralsTable = ({ candidates }) => {
                   <select
                     value={referral.status}
                     onChange={(e) =>
-                      handleStatusChange(referral.empId, e.target.value)
+                      handleStatusChange(referral._id, e.target.value)
                     }
                     className="border border-gray-300 rounded px-2 py-1 text-sm"
                   >

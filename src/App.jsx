@@ -8,6 +8,7 @@ import ErrorPage from "./components/pages/ErrorPage";
 import Hero from "./components/pages/LandingPage";
 import CardsGrid from "./components/pages/OpeningsPage";
 import ReferralsTable from "./components/pages/ReferralsPage";
+import RequestPage from "./components/pages/RequestPage";
 import UsersTable from "./components/pages/UsersPage";
 import "./index.css";
 
@@ -36,27 +37,6 @@ const candidates = [
   },
 ];
 
-const users = [
-  {
-    empId: "KS1189",
-    name: "Abhishek Bhosale",
-    email: "abhishek.bhosale@ksolves.com",
-    designation: "Software Engineer",
-  },
-  {
-    empId: "KS1191",
-    name: "Fedrick Nishant",
-    email: "fedrick.n@ksolves.com",
-    designation: "Senior Software Engineer",
-  },
-  {
-    empId: "KS1192",
-    name: "Ramesh Shinde",
-    email: "ramesh@ksolves.com",
-    designation: "Delivery Head",
-  },
-];
-
 function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -82,14 +62,8 @@ function App() {
           <Route path="/open-positions" element={<CardsGrid />} />
           <Route path="/your-referrals" element={<ReferralsTable />} />
           <Route path="/be-reviewer" element={<RequestCard></RequestCard>} />
-          <Route
-            path="/manage-users"
-            element={<UsersTable users={users} isRequest={false} />}
-          />
-          <Route
-            path="/requests"
-            element={<UsersTable users={users} isRequest={true} />}
-          />
+          <Route path="/manage-users" element={<UsersTable />} />
+          <Route path="/requests" element={<RequestPage />} />
           <Route
             path="/all-referrals"
             element={<ReferralsTable candidates={allReferrals} />}
