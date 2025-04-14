@@ -37,6 +37,9 @@ const GoogleAuthButton = () => {
     window.location.reload();
   };
 
+  console.log("**********");
+  console.log(user);
+
   return (
     <div>
       {user ? (
