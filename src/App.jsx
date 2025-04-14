@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import Navbar from "./components/atoms/Navbar";
@@ -11,31 +11,6 @@ import ReferralsTable from "./components/pages/ReferralsPage";
 import RequestPage from "./components/pages/RequestPage";
 import UsersTable from "./components/pages/UsersPage";
 import "./index.css";
-
-const candidates = [
-  {
-    name: "John Doe",
-    experience: 5,
-    email: "john@example.com",
-    phone: "+123456789",
-    dateAdded: "2025-04-02",
-    resumeLink: "https://example.com/resume.pdf",
-    linkedinLink: "https://linkedin.com/in/johndoe",
-    status: "Accepted",
-    referredBy: "Abhishek Singh",
-  },
-  {
-    name: "Jane Smith",
-    experience: 3,
-    email: "jane@example.com",
-    phone: "+987654321",
-    dateAdded: "2025-03-28",
-    resumeLink: "https://example.com/resume2.pdf",
-    linkedinLink: "https://linkedin.com/in/janesmith",
-    status: "Rejected",
-    referredBy: "Elon Musk",
-  },
-];
 
 function App() {
   const location = useLocation();

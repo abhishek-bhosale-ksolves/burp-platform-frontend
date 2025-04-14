@@ -7,6 +7,7 @@ import GoogleAuthButton from "./GoogleAuthButton";
 
 const Navbar = () => {
   const { user } = useUser();
+  console.log("User in Navbar:", user);
   const navLinks = {
     employee: [
       { path: "/open-positions", label: "Open Positions" },
