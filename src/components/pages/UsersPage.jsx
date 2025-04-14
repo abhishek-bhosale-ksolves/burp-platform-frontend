@@ -10,10 +10,13 @@ const UsersTable = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/users", {
-          method: "GET",
-          credentials: "include",
-        });
+        const res = await fetch(
+          "https://burp-platform-backend.onrender.com/api/users",
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
         const data = await res.json();
         setUsers(data);
       } catch (error) {

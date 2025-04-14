@@ -6,7 +6,7 @@ const RequestCard = ({ request }) => {
   const handleAccept = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/users/request/${request._id}`,
+        `https://burp-platform-backend.onrender.com/api/users/request/${request._id}`,
         { status: "accepted" },
         { withCredentials: true },
       );
@@ -18,7 +18,7 @@ const RequestCard = ({ request }) => {
   const handleReject = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/users/request/${request._id}`,
+        `https://burp-platform-backend.onrender.com/api/users/request/${request._id}`,
         { status: "rejected" },
         { withCredentials: true },
       );
@@ -68,7 +68,7 @@ const RequestPage = () => {
     const fetchRequestData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/users/request",
+          "https://burp-platform-backend.onrender.com/api/users/request",
           { withCredentials: true },
         );
         setAllRequests(response.data);

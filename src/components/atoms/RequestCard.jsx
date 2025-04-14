@@ -12,7 +12,7 @@ function RequestCard() {
     const checkRequestStatus = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/users/request/${user._id}`,
+          `https://burp-platform-backend.onrender.com/api/users/request/${user._id}`,
           { withCredentials: true },
         );
         console.log("**********:", res.data);
@@ -43,7 +43,7 @@ function RequestCard() {
   const sendRequest = async () => {
     try {
       await axios.post(
-        `http://localhost:5000/api/users/request/${user._id}`,
+        `https://burp-platform-backend.onrender.com/api/users/request/${user._id}`,
         {},
         {
           withCredentials: true,
