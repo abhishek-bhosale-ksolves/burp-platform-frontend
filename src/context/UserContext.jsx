@@ -15,7 +15,9 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await API.get("/auth/api/user");
+        const res = await API.get("/auth/api/user", {
+          withCredentials: true,
+        });
         setUser(res.data.user);
       } catch (error) {
         if (error.response && error.response.status === 401) {
