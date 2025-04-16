@@ -17,6 +17,9 @@ export const UserProvider = ({ children }) => {
       try {
         const res = await API.get("/auth/api/user", {
           withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
         setUser(res.data.user);
       } catch (error) {
